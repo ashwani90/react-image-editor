@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@9.3.18/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Load Complex Stage Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  </head>
+  <body>
+    <div id="container"></div>
+    <button onclick="downloadKonvaAsImage(event)">Download as Image</button>
+    <script>
+      var json =
+        `{
+  "attrs": {
+    "width": 1475.015625,
+    "height": 528.296875,
+    "className": "_absolute_mj6jg_5 _top0_mj6jg_9 _left0_mj6jg_13",
+    "x": 102
+  },
+  "className": "Stage",
+  "children": [
+    {
+      "attrs": {},
+      "className": "Layer",
+      "children": [
+        {
+          "attrs": {
+            "name": "label-group"
+          },
+          "className": "Group",
+          "children": [
+            {
+              "attrs": {
+                "x": 42.9916844,
+                "y": -84.5098932
+              },
+              "className": "Label",
+              "children": [
+                {
+                  "attrs": {
+                    "name": "label-tag",
+                    "pointerDirection": "left",
+                    "y": -25,
+                    "width": 113.9794921875,
+                    "height": 50
+                  },
+                  "className": "Tag"
+                },
+                {
+                  "attrs": {
+                    "text": "Youtube Video Thumbnail",
+                    "name": "label-text",
+                    "fontSize": 10,
+                    "height": 50,
+                    "lineHeight": 1.2,
+                    "fill": "#000000",
+                    "y": -25
+                  },
+                  "className": "Text"
+                }
+              ]
+            },
+            {
+              "attrs": {
+                "name": "label-target",
+                "data-item-type": "frame",
+                "data-frame-type": "Youtube Video Thumbnail",
+                "id": "7AAK66mV5xHBukDtg6onJ",
+                "x": 42.9916844,
+                "y": -84.5098932,
+                "width": 1280,
+                "height": 760,
+                "fill": "#ffffff",
+                "filters": [
+                  null
+                ],
+                "draggable": true
+              },
+              "className": "Rect"
+            },
+            {
+              "attrs": {
+                "name": "label-target",
+                "data-item-type": "shape",
+                "id": "Zy18gsCVvbHBbKZmU1nu6",
+                "x": 742.9909959,
+                "y": 241.5176422,
+                "sides": 3,
+                "radius": 100,
+                "fill": "#00000",
+                "draggable": true
+              },
+              "className": "RegularPolygon"
+            },
+            {
+              "attrs": {
+                "name": "label-target",
+                "data-item-type": "image",
+                "data-frame-type": "image",
+                "id": "_l_NTJRieuf4Aj6XWHfTh",
+                "x": 214.7940679,
+                "y": -10.4817959,
+                "width": 486.4,
+                "height": 512,
+                "fill": "transparent",
+                "filters": [
+                  null
+                ],
+                "draggable": true
+              },
+              "className": "Image"
+            }
+          ]
+        },
+        {
+          "attrs": {
+            "shouldOverdrawWholeArea": true,
+            "enabledAnchors": [
+              "top-left",
+              "top-center",
+              "top-right",
+              "middle-left",
+              "middle-right",
+              "bottom-left",
+              "bottom-center",
+              "bottom-right"
+            ]
+          },
+          "className": "Transformer"
+        },
+        {
+          "attrs": {
+            "name": "select-box",
+            "fill": "skyblue",
+            "opacity": 0.4,
+            "visible": false
+          },
+          "className": "Rect"
+        }
+      ]
+    }
+  ]
+}`;
+        //finalJson = JSON.parse(finalJson);
+
+      
+
+      var stage = Konva.Node.create(json, 'container');
+      var imageSources = [
+        'screenshots/Data-Structure.png'
+        ];
+
+      stage.find('Image').forEach((konvaImage, index) => {
+        if (index < imageSources.length) {
+          let img = new Image();
+          img.crossOrigin = "Anonymous";
+          img.onload = function () {
+            konvaImage.image(img);
+            stage.batchDraw(); // Redraw the stage after setting the image
+          };
+          img.src = imageSources[index]; // Assign image source dynamically
+        }
+      });
+      window.stage = stage;
+      function downloadKonvaAsImage(event) {
+            if (event) event.preventDefault(); // Prevent form submission
+        
+            console.log("Downloading image..."); // Debugging
+            stage = window.stage;
+            if (!stage) {
+                console.error("Konva stage is undefined!");
+                return;
+            }
+            
+            const dataURL = stage.toDataURL({ pixelRatio: 2 });
+            console.log(dataURL);
+            return;
+        
+            console.log("Image Data URL Generated:", dataURL); // Debugging
+            const link = document.createElement("a");
+            link.href = dataURL;
+            link.download = "konva-canvas.png";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    
+    
+    </script>
+  </body>
+</html>
