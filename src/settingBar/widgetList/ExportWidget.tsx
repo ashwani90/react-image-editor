@@ -81,21 +81,8 @@ const ExportThumbnail: React.FC<{
       // Save JSON (example: log it or send to server)
       console.log(finalJson);
       console.log(stage.toJSON());
-      saveKonvaWithImages(stage);
-      function saveKonvaWithImages(stage) {
-        const jsonData = JSON.parse(stage.toJSON()); // Convert stage to JSON object
       
-        // Iterate through all nodes to find images
-        stage.find('Image').forEach((node) => {
-          const base64 = node.toDataURL(); // Convert image to Base64
-          node.setAttr('imageData', base64); // Add it to JSON attributes
-        });
-      
-        console.log(jsonData); // You can save this JSON in a database
-        return jsonData;
-      }
-      
-      //saveJSON(JSON.parse(jsonData), "data.json");
+      saveJSON(JSON.parse(jsonData), "data.json");
       function saveJSON(data, filename = "data.json") {
           console.log(data);
           const jsonStr = JSON.stringify(data, null, 2);  // Pretty format JSON
